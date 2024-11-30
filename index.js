@@ -12,13 +12,23 @@ const MONGO_URL = process.env.MONGO_URL || "your_default_mongo_url_here";
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
+
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://bagshop-appp.onrender.com",
     credentials: true,
 }));
 // Serve static files from the 'uploads' directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // app.use("/uploads", express.static("uploads"))
+
+
+
+app.use(express.static("dist"))
+
+app.use("*", (req, res) => {
+
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+});
 
 // Routes
 app.use("/api/user", require("./routes/userRoute"));
